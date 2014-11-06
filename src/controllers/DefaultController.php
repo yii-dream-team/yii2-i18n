@@ -42,6 +42,30 @@ class DefaultController extends Controller
         }
     }
 
+    public function actionMassUpdate()
+    {
+        $searchModel = new SourceMessageSearch;
+
+        $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
+
+        $languages = \Yii::$app->i18n->languages;
+        $tabContent = [];
+        foreach ($languages as $i => $language) {
+            $tabContent = [
+                'title' => $language,
+                'active' => !$i,
+                'content' => $this->render('_massItem', [
+                    'language' => $language,
+                ])
+            ];
+        }
+
+        return $this->render('massUpdate', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
     /**
      * @param array|integer $id
      * @return SourceMessage|SourceMessage[]
