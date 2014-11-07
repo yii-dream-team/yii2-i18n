@@ -5,7 +5,7 @@ namespace yiidreamteam\i18n;
 use yii\base\BootstrapInterface;
 use Yii;
 use yii\data\Pagination;
-use yiidreamteam\i18n\commands\I18nController;
+use yiidreamteam\i18n\commands\I18nCommand;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -18,7 +18,7 @@ class Bootstrap implements BootstrapInterface
             $moduleId = $i18nModule->id;
             $app->getUrlManager()->addRules([
                 'translation/<id:\d+>' => $moduleId . '/default/update',
-                'translation/<language:\w+>' => $moduleId . '/default/index',
+                'translation/mass-update' => $moduleId . '/default/mass-update',
                 'translation' => $moduleId . '/default/index',
             ], false);
 
@@ -30,7 +30,7 @@ class Bootstrap implements BootstrapInterface
 
         if ($app instanceof \yii\console\Application) {
             if (!isset($app->controllerMap['i18n'])) {
-                $app->controllerMap['i18n'] = I18nController::className();
+                $app->controllerMap['i18n'] = I18nCommand::className();
             }
         }
     }

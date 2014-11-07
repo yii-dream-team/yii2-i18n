@@ -22,12 +22,12 @@ class m141106_000001_i18n_module_init extends Migration
         ]);
 
         $this->createTable($messageTable, [
-            'sourceMessageId' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'language' => Schema::TYPE_STRING . '(16) NOT NULL',
             'translation' => Schema::TYPE_TEXT
         ]);
-        $this->addPrimaryKey('id', $messageTable, ['sourceMessageId', 'language']);
-        $this->addForeignKey('FK_message_sourceMessageId', $messageTable, 'sourceMessageId', $sourceMessageTable, 'id', 'cascade');
+        $this->addPrimaryKey('id', $messageTable, ['id', 'language']);
+        $this->addForeignKey('FK_message_id', $messageTable, 'id', $sourceMessageTable, 'id', 'cascade');
     }
 
     public function down()
@@ -39,7 +39,7 @@ class m141106_000001_i18n_module_init extends Migration
         $sourceMessageTable = $i18n->sourceMessageTable;
         $messageTable = $i18n->messageTable;
 
-        $this->dropForeignKey('FK_message_sourceMessageId', $messageTable);
+        $this->dropForeignKey('FK_message_source_message_id', $messageTable);
         $this->dropTable($messageTable);
         $this->dropTable($sourceMessageTable);
     }

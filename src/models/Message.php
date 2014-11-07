@@ -28,8 +28,8 @@ class Message extends ActiveRecord
     public function rules()
     {
         return [
-            [['language', 'sourceMessageId'], 'required'],
-            ['sourceMessageId', 'integer'],
+            [['language'], 'required'],
+            ['id', 'integer'],
             ['language', 'string', 'max' => 16],
             ['translation', 'string']
         ];
@@ -41,7 +41,7 @@ class Message extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'sourceMessageId' => Module::t('ID'),
+            'id' => Module::t('ID'),
             'language' => Module::t('Language'),
             'translation' => Module::t('Translation')
         ];
@@ -49,6 +49,6 @@ class Message extends ActiveRecord
 
     public function getSourceMessage()
     {
-        return $this->hasOne(SourceMessage::className(), ['id' => 'sourceMessageId']);
+        return $this->hasOne(SourceMessage::className(), ['id' => 'id']);
     }
 }

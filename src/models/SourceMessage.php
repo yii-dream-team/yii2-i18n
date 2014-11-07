@@ -53,7 +53,7 @@ class SourceMessage extends ActiveRecord
 
     public function getMessages()
     {
-        return $this->hasMany(Message::className(), ['sourceMessageId' => 'id'])->indexBy('language');
+        return $this->hasMany(Message::className(), ['id' => 'id'])->indexBy('language');
     }
 
     /**

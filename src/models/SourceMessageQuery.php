@@ -1,24 +1,23 @@
 <?php
 
-namespace yiidreamtema\i18n\models;
+namespace yiidreamteam\i18n\models;
 
 use Yii;
 use yii\db\ActiveQuery;
-use yiidreamtema\i18n\models\Message;
 
 class SourceMessageQuery extends ActiveQuery
 {
     public function notTranslated()
     {
         $messageTableName = Message::tableName();
-        $query = Message::find()->select($messageTableName . '.sourceMessageId');
+        $query = Message::find()->select($messageTableName . '.id');
         $i = 0;
         foreach (Yii::$app->getI18n()->languages as $language) {
             if ($i === 0) {
                 $query->andWhere($messageTableName . '.language = :language and ' . $messageTableName . '.translation is not null', [':language' => $language]);
             } else {
                 $query->innerJoin($messageTableName . ' t' . $i
-                    , 't' . $i . '.sourceMessageId = ' . $messageTableName . '.id and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
+                    , 't' . $i . '.id = ' . $messageTableName . '.id and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
             }
             $i++;
         }
@@ -30,14 +29,14 @@ class SourceMessageQuery extends ActiveQuery
     public function translated()
     {
         $messageTableName = Message::tableName();
-        $query = Message::find()->select($messageTableName . '.sourceMessageId');
+        $query = Message::find()->select($messageTableName . '.id');
         $i = 0;
         foreach (Yii::$app->getI18n()->languages as $language) {
             if ($i === 0) {
                 $query->andWhere($messageTableName . '.language = :language and ' . $messageTableName . '.translation is not null', [':language' => $language]);
             } else {
                 $query->innerJoin($messageTableName . ' t' . $i
-                    , 't' . $i . '.sourceMessageId = ' . $messageTableName . '.sourceMessageId and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
+                    , 't' . $i . '.id = ' . $messageTableName . '.id and t' . $i . '.language = :language and t' . $i . '.translation is not null', [':language' => $language]);
             }
             $i++;
         }

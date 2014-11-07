@@ -7,7 +7,7 @@ use yii\console\Controller;
 use yii\console\Exception;
 use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
-use yiidreamtema\i18n\models\Message;
+use yiidreamteam\i18n\models\Message;
 use yiidreamteam\i18n\models\SourceMessage;
 
 class I18nCommand extends Controller

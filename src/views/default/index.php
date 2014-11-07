@@ -6,7 +6,7 @@
  */
 
 use yii\data\ActiveDataProvider;
-use yii\grid\GridView;
+use kartik\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
@@ -21,9 +21,6 @@ echo Breadcrumbs::widget(['links' => [
 ]]);
 ?>
 <div class="message-index">
-
-    
-
     <h3><?= Html::encode($this->title) ?></h3>
     <?php
     Pjax::begin();

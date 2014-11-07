@@ -22,7 +22,7 @@ class SourceMessageSearch extends SourceMessage
         return [
             ['category', 'safe'],
             ['message', 'safe'],
-            ['status', 'safe']
+            ['status', 'safe'],
         ];
     }
 
@@ -49,6 +49,7 @@ class SourceMessageSearch extends SourceMessage
         $query
             ->andFilterWhere(['like', 'category', $this->category])
             ->andFilterWhere(['like', 'message', $this->message]);
+
         return $dataProvider;
     }
 
