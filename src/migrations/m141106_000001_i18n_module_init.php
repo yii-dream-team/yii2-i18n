@@ -27,7 +27,7 @@ class m141106_000001_i18n_module_init extends Migration
             'translation' => Schema::TYPE_TEXT
         ]);
         $this->addPrimaryKey('id', $messageTable, ['id', 'language']);
-        $this->addForeignKey('FK_message_id', $messageTable, 'id', $sourceMessageTable, 'id', 'cascade');
+        $this->addForeignKey('FK_message_source_message_id', $messageTable, 'id', $sourceMessageTable, 'id', 'cascade');
     }
 
     public function down()
