@@ -3,6 +3,7 @@
  * @var View $this
  * @var SourceMessageSearch $searchModel
  * @var ActiveDataProvider $dataProvider
+ * @var array $tabContent
  */
 
 use yii\data\ActiveDataProvider;
@@ -21,46 +22,61 @@ echo Breadcrumbs::widget(['links' => [
 ]]);
 ?>
 <div class="message-index">
+
     <h3><?= Html::encode($this->title) ?></h3>
+    <?= yii\bootstrap\Nav::widget([
+        'items' => $menuItems,
+        'options' => [
+            'class' => 'nav-tabs'
+        ]
+    ]) ?>
+
     <?php
-    Pjax::begin();
     echo GridView::widget([
         'filterModel' => $searchModel,
         'dataProvider' => $dataProvider,
         'columns' => [
-            [
+            /*[
                 'attribute' => 'id',
                 'value' => function ($model, $index, $dataColumn) {
-                        return $model->id;
-                    },
+                    return $model->id;
+                },
                 'filter' => false
-            ],
+            ],*/
             [
-                'attribute' => 'message',
+                'attribute' => 'source',
                 'format' => 'raw',
                 'value' => function ($model, $index, $widget) {
-                        return Html::a($model->message, ['update', 'id' => $model->id], ['data' => ['pjax' => 0]]);
-                    }
+                    return Html::a($model->sourceMessage->message, ['update', 'id' => $model->sourceMessage->id], ['data' => ['pjax' => 0]]);
+                }
+            ],
+            [
+                'class' => kartik\grid\EditableColumn::className(),
+                'attribute' => 'translation',
+                'editableOptions' => [
+                    'header' => 'Перевод',
+                    'size' => 'md',
+                    'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
+                    'inputType' => \kartik\editable\Editable::INPUT_TEXTAREA,
+                    'formOptions' => [
+                        'action' => \yii\helpers\Url::to(['save-translate'])
+                    ],
+                    'pluginEvents' => [
+                        "editableSuccess" => "function(val) {
+                            var id = val.currentTarget.id;
+                            var row = $('#'+id).closest('tr');
+                            row.next().find('.kv-editable-link').trigger('click');
+                        }",
+                    ]
+                ]
             ],
             [
                 'attribute' => 'category',
-                'value' => function ($model, $index, $dataColumn) {
-                        return $model->category;
-                    },
-                'filter' => ArrayHelper::map($searchModel::getCategories(), 'category', 'category')
+                'value' => function($data) {
+                    return $data->sourceMessage->category;
+                }
             ],
-            [
-                'attribute' => 'status',
-                'value' => function ($model, $index, $widget) {
-                        return '';
-                    },
-                'filter' => Html::dropDownList($searchModel->formName() . '[status]', $searchModel->status, $searchModel->getStatus(), [
-                        'class' => 'form-control',
-                        'prompt' => ''
-                    ])
-            ]
         ]
     ]);
-    Pjax::end();
     ?>
 </div>

@@ -12,6 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use Yii;
+use yiidreamteam\i18n\models\MessageSearch;
 use yiidreamteam\i18n\models\SourceMessageSearch;
 use yiidreamteam\i18n\models\SourceMessage;
 use yiidreamteam\i18n\models\Message;
@@ -19,16 +20,6 @@ use yiidreamteam\i18n\Module;
 
 class DefaultController extends Controller
 {
-    public function actionIndex()
-    {
-        $searchModel = new SourceMessageSearch;
-        $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider
-        ]);
-    }
-
     /**
      * @param integer $id
      * @return string|Response
@@ -48,21 +39,22 @@ class DefaultController extends Controller
         }
     }
 
-    public function actionMassUpdate($language = 'en-EN')
+    public function actionIndex($language = 'en-EN')
     {
-        $searchModel = new ActiveDataProvider(['query' => Message::find()->where(['language' => $language])]);
-        $dataProvider = $searchModel;
+        $searchModel = new MessageSearch;
+        $searchModel->language = $language;
+        $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
 
         $menuItems = [];
         foreach(\Yii::$app->i18n->languages as $lang) {
             $menuItems[] = [
                 'label' => $lang,
-                'url' => Url::to(['mass-update', 'language' => $lang]),
+                'url' => Url::to(['index', 'language' => $lang]),
                 'active' => $lang == $language
             ];
         }
 
-        return $this->render('massUpdate', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'language' => $language,
@@ -80,9 +72,9 @@ class DefaultController extends Controller
         $models = [$_POST['editableIndex'] => $model];
         if(Model::loadMultiple($models, Yii::$app->request->post()) && $model->save())
         {
-            echo Json::encode(true);
+            echo Json::encode(['output' => \yii\helpers\Html::encode($model->translation)]);
         } else
-            echo Json::encode(false);
+            echo Json::encode(['message' => 'Ошибки при вводе']);
     }
 
     /**
