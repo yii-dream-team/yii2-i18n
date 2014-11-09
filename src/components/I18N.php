@@ -26,9 +26,11 @@ class I18N extends \yii\i18n\I18N
     /** @var string $defaultLanguage a default user language, default to getLanguage() method */
     public $defaultLanguage;
 
+    /** @var string */
     public $languageSessionKey;
 
-    public $languageQueryParam;
+    /** @var string */  
+    public $languageParam;
 
     /** @var string $_language a reference to the language set */
     private $_language;
@@ -48,8 +50,8 @@ class I18N extends \yii\i18n\I18N
         if(empty($this->languageSessionKey))
             $this->languageSessionKey = 'language';
         
-        if(empty($this->languageQueryParam))
-            $this->languageQueryParam = 'language';
+        if(empty($this->languageParam))
+            $this->languageParam = 'language';
 
         if (!isset($this->translations['*'])) {
             $this->translations['*'] = [
@@ -81,10 +83,10 @@ class I18N extends \yii\i18n\I18N
             return $this->_language;
         elseif (Yii::$app->session->has($this->languageSessionKey))
             $language = Yii::$app->session->get($this->languageSessionKey);
-        elseif (Yii::$app->request->post($this->languageQueryParam))
-            $language = Yii::$app->request->post($this->languageQueryParam);
-        elseif (Yii::$app->request->get($this->languageQueryParam))
-            $language = Yii::$app->request->get($this->languageQueryParam);
+        elseif (Yii::$app->request->post($this->languageParam))
+            $language = Yii::$app->request->post($this->languageParam);
+        elseif (Yii::$app->request->get($this->languageParam))
+            $language = Yii::$app->request->get($this->languageParam);
         else
             $language = Yii::$app->request->getPreferredLanguage();
 
