@@ -14,7 +14,11 @@ class I18N extends \yii\i18n\I18N
     /** @var string */
     public $messageTable = '{{%message}}';
     
-    /** @var array */
+    /** 
+     * Array of supported languages in format:
+     * en-EN => English
+     * @var array
+     */
     public $languages;
     
     /** @var array */
@@ -81,6 +85,7 @@ class I18N extends \yii\i18n\I18N
     {
         if ($this->_language !== null)
             return $this->_language;
+
         elseif (Yii::$app->session->has($this->languageSessionKey))
             $language = Yii::$app->session->get($this->languageSessionKey);
         elseif (Yii::$app->request->post($this->languageParam))
@@ -90,14 +95,14 @@ class I18N extends \yii\i18n\I18N
         else
             $language = Yii::$app->request->getPreferredLanguage();
 
-        if (!key_exists($language, $this->languages))
+        if (!array_key_exists($language, $this->languages))
         {
             if ($language === Yii::$app->sourceLanguage)
                 $language = $this->defaultLanguage;
             elseif (strpos($language, "_") !== false)
             {
                 $language = substr($language, 0, 2);
-                if (!key_exists($language, $this->languages))
+                if (!array_key_exists($language, $this->languages))
                     $language = $this->defaultLanguage;
             }
         }
@@ -113,7 +118,7 @@ class I18N extends \yii\i18n\I18N
         
         $this->_language = $language;
         Yii::$app->session->set($this->languageSessionKey, $language);
-        Yii::$app->setLanguage($language);
+        Yii::$app->language = $language;
         return $language;
     }
 }
