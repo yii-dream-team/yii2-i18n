@@ -31,7 +31,8 @@ class Message extends ActiveRecord
             [['language'], 'required'],
             ['id', 'integer'],
             ['language', 'string', 'max' => 16],
-            ['translation', 'string']
+            ['translation', 'string'],
+            ['translation', 'filter', 'filter' => 'trim']
         ];
     }
 
@@ -51,4 +52,5 @@ class Message extends ActiveRecord
     {
         return $this->hasOne(SourceMessage::className(), ['id' => 'id']);
     }
+
 }
