@@ -46,9 +46,9 @@ class DefaultController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->getRequest()->get());
 
         $menuItems = [];
-        foreach(\Yii::$app->i18n->languages as $lang) {
+        foreach(\Yii::$app->i18n->languages as $lang => $label) {
             $menuItems[] = [
-                'label' => $lang,
+                'label' => $label,
                 'url' => Url::to(['index', 'language' => $lang]),
                 'active' => $lang == $language
             ];
