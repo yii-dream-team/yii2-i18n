@@ -33,13 +33,16 @@ class SelectLanguageWidget extends \yii\base\Widget
 
 		if(!$this->selectedLanguage)
 			$this->selectedLanguage = Yii::$app->i18n->getLanguage();
+
+		\yii\helpers\Url::remember();
 	}
 
 	public function run()
 	{
 		return $this->render($this->viewFile, [
 			'languages' => $this->languages,
-			'selectedLanguage' => $this->selectedLanguage
+			'selectedLanguage' => $this->selectedLanguage,
+			'formAction' => $this->formAction
 		]);
 	}
 }
