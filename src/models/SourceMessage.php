@@ -67,13 +67,13 @@ class SourceMessage extends ActiveRecord
     public function initMessages()
     {
         $messages = [];
-        foreach (Yii::$app->getI18n()->languages as $language) {
-            if (!isset($this->messages[$language])) {
+        foreach (Yii::$app->getI18n()->languages as $code => $name) {
+            if (!isset($this->messages[$code])) {
                 $message = new Message;
-                $message->language = $language;
-                $messages[$language] = $message;
+                $message->language = $code;
+                $messages[$code] = $message;
             } else {
-                $messages[$language] = $this->messages[$language];
+                $messages[$code] = $this->messages[$code];
             }
         }
         $this->populateRelation('messages', $messages);
