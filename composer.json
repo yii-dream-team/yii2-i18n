@@ -26,7 +26,9 @@
         "source": "https://github.com/yii-dream-team/yii2-i18n"
     },
     "require": {
-        "yiisoft/yii2": "~2"
+        "yiisoft/yii2": "~2",
+        "kartik-v/yii2-popover-x": "*",
+        "kartik-v/yii2-editable": "*"
     },
     "autoload": {
         "psr-4": {

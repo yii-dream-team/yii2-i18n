@@ -3,17 +3,14 @@
 namespace yiidreamteam\i18n\controllers;
 
 use yii\base\Model;
-use yii\data\ActiveDataProvider;
-use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use Yii;
 use yiidreamteam\i18n\models\MessageSearch;
-use yiidreamteam\i18n\models\SourceMessageSearch;
 use yiidreamteam\i18n\models\SourceMessage;
 use yiidreamteam\i18n\models\Message;
 use yiidreamteam\i18n\Module;
@@ -64,15 +61,18 @@ class DefaultController extends Controller
 
     public function actionSaveTranslate()
     {
+        if(!Yii::$app->request->post('hasEditable', false))
+            return;
+
         $key = unserialize(Yii::$app->request->post('editableKey', false));
         if(empty($key))
             return;
 
+        /** @var Message $model */
         $model = Message::findOne($key);
-        $models = [$_POST['editableIndex'] => $model];
-        if(Model::loadMultiple($models, Yii::$app->request->post()) && $model->save())
+        if($model->load(Yii::$app->request->post()) && $model->save())
         {
-            echo Json::encode(['output' => \yii\helpers\Html::encode($model->translation)]);
+            echo Json::encode(['output' => Html::encode($model->translation)]);
         } else
             echo Json::encode(['message' => 'Ошибки при вводе']);
     }
