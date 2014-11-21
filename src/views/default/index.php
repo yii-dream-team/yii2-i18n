@@ -36,13 +36,6 @@ echo Breadcrumbs::widget(['links' => [
         'filterModel' => $searchModel,
         'dataProvider' => $dataProvider,
         'columns' => [
-            /*[
-                'attribute' => 'id',
-                'value' => function ($model, $index, $dataColumn) {
-                    return $model->id;
-                },
-                'filter' => false
-            ],*/
             [
                 'attribute' => 'source',
                 'format' => 'raw',
@@ -76,6 +69,19 @@ echo Breadcrumbs::widget(['links' => [
                     return $data->sourceMessage->category;
                 }
             ],
+            [
+                'attribute' => 'translationStatus',
+                'value' => function($data) {
+                    return empty($data->translation) ? \Yii::t('app', 'no') : '';
+                },
+                'filter' => [
+                    'yes' => \Yii::t('app', 'yes'),
+                    'no' => \Yii::t('app', 'no'),
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ]
+            ]
         ]
     ]);
     ?>

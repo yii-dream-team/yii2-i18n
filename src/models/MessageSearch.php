@@ -9,8 +9,12 @@ use yii\helpers\VarDumper;
 class MessageSearch extends Message
 {
 
+    const MESSAGE_TRANSLATED_YES = 'yes';
+    const MESSAGE_TRANSLATED_NO  = 'no';
+
     public $category;
     public $source;
+    public $translationStatus;
 
     /**
      * @inheritdoc
@@ -18,7 +22,7 @@ class MessageSearch extends Message
     public function rules()
     {
         return [
-            [['category', 'source', 'language', 'translation'], 'safe'],
+            [['category', 'source', 'language', 'translation', 'translationStatus'], 'safe'],
         ];
     }
 
@@ -44,6 +48,11 @@ class MessageSearch extends Message
             ->andFilterWhere(['like', 'translation', $this->translation])
             ->andFilterWhere(['like', 'sourceMessage.message', $this->source])
             ->andFilterWhere(['like', 'sourceMessage.category', $this->category]);
+
+        if($this->translationStatus === static::MESSAGE_TRANSLATED_YES)
+            $query->andWhere('translation IS NOT NULL AND translation <> ""');
+        elseif($this->translationStatus === static::MESSAGE_TRANSLATED_NO)
+            $query->andWhere('translation IS NULL OR translation = ""');
 
         return $dataProvider;
     }
