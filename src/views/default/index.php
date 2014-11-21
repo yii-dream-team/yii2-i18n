@@ -65,7 +65,7 @@ echo Breadcrumbs::widget(['links' => [
                         "editableSuccess" => "function(val) {
                             var id = val.currentTarget.id;
                             var row = $('#'+id).closest('tr');
-                            row.next().find('.kv-editable-link').trigger('click');
+                            row.next().find('.kv-editable-link').trigger('click').parent().find('.kv-editable-input').focus();
                         }",
                     ]
                 ]
