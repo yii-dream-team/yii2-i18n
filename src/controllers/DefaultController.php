@@ -70,7 +70,7 @@ class DefaultController extends Controller
 
         /** @var Message $model */
         $model = Message::findOne($key);
-        if($model->load(Yii::$app->request->post()) && $model->save())
+        if(Model::loadMultiple([Yii::$app->request->post('editableIndex', 0) => $model], Yii::$app->request->post()) && $model->save())
         {
             echo Json::encode(['output' => Html::encode($model->translation)]);
         } else
