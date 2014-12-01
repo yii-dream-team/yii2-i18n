@@ -74,13 +74,18 @@ class I18N extends \yii\i18n\I18N
                 'on missingTranslation' => $this->missingTranslationHandler
             ];
         }
-        
+
         if($this->autoSetLanguage)
             $this->setLanguage();
+        else
+            \Yii::$app->language = \Yii::$app->session->get($this->languageSessionKey, \Yii::$app->language);
 
         parent::init();
     }
 
+    /**
+     * @return array|mixed|string
+     */
     public function getLanguage()
     {
         if ($this->_language !== null)
@@ -111,6 +116,10 @@ class I18N extends \yii\i18n\I18N
         return $language;
     }
 
+    /**
+     * @param null $language
+     * @return array|mixed|null|string
+     */
     public function setLanguage($language = null)
     {
         if ($language === null)
