@@ -8,11 +8,9 @@
 
 use yii\data\ActiveDataProvider;
 use kartik\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Breadcrumbs;
-use yii\widgets\Pjax;
 use yiidreamteam\i18n\models\SourceMessageSearch;
 use yiidreamteam\i18n\Module;
 
@@ -81,7 +79,11 @@ echo Breadcrumbs::widget(['links' => [
                 'contentOptions' => [
                     'class' => 'text-center'
                 ]
-            ]
+            ],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{delete}',
+            ],
         ]
     ]);
     ?>

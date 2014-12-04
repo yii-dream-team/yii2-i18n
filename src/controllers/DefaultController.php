@@ -3,6 +3,7 @@
 namespace yiidreamteam\i18n\controllers;
 
 use yii\base\Model;
+use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -17,6 +18,17 @@ use yiidreamteam\i18n\Module;
 
 class DefaultController extends Controller
 {
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['post'],
+                ],
+            ],
+        ];
+    }
     /**
      * @param integer $id
      * @return string|Response
@@ -93,5 +105,15 @@ class DefaultController extends Controller
         } else {
             throw new NotFoundHttpException(Module::t('The requested page does not exist'));
         }
+    }
+
+    public function actionDelete($id)
+    {
+        $this->findModel($id)->delete();
+
+        if(Yii::$app->request->isPjax || Yii::$app->request->isAjax)
+            echo Json::encode(['deleted' => true]);
+
+        return $this->redirect(['index', 'language' => Yii::$app->request->get('language', 'en-EN')]);
     }
 }
