@@ -98,7 +98,7 @@ class I18N extends \yii\i18n\I18N
         elseif (Yii::$app->request->get($this->languageParam))
             $language = Yii::$app->request->get($this->languageParam);
         else
-            $language = Yii::$app->request->getPreferredLanguage();
+            $language = Yii::$app->request->getPreferredLanguage(array_keys($this->languages));
 
         if (!array_key_exists($language, $this->languages))
         {
