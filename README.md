@@ -56,8 +56,9 @@ And connect module at backend application:
     'i18n' => yiidreamteam\i18n\Module::className(),
     ...
 ]
+```
 
-Run:
+Run migration:
 
 ```
 php yii migrate --migrationPath=@vendor/yii-dream-team/yii2-i18n/src/migrations
