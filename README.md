@@ -66,8 +66,6 @@ php yii migrate --migrationPath=@vendor/yii-dream-team/yii2-i18n/src/migrations
 
 Go to ```http://backend.yourdomain.com/translations``` for translating your messages
 
-```
-
 ##Road map
 
 ##Authors
