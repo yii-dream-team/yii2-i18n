@@ -91,11 +91,11 @@ class I18N extends \yii\i18n\I18N
         if ($this->_language !== null)
             return $this->_language;
 
-        elseif (Yii::$app->session->has($this->languageSessionKey))
+        elseif (Yii::$app->has('session') && Yii::$app->session->has($this->languageSessionKey))
             $language = Yii::$app->session->get($this->languageSessionKey);
-        elseif (Yii::$app->request->post($this->languageParam))
+        elseif (Yii::$app->has('request') && Yii::$app->request->post($this->languageParam))
             $language = Yii::$app->request->post($this->languageParam);
-        elseif (Yii::$app->request->get($this->languageParam))
+        elseif (Yii::$app->has('request') && Yii::$app->request->get($this->languageParam))
             $language = Yii::$app->request->get($this->languageParam);
         else
             $language = Yii::$app->request->getPreferredLanguage(array_keys($this->languages));
@@ -126,7 +126,10 @@ class I18N extends \yii\i18n\I18N
             $language = $this->getLanguage();
         
         $this->_language = $language;
-        Yii::$app->session->set($this->languageSessionKey, $language);
+
+        if(Yii::$app->has('session'))
+            Yii::$app->session->set($this->languageSessionKey, $language);
+
         Yii::$app->language = $language;
         return $language;
     }
