@@ -5,7 +5,7 @@ namespace yiidreamteam\i18n\models;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\I18n;
 
 class Message extends ActiveRecord
 {
@@ -42,9 +42,9 @@ class Message extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Module::t('ID'),
-            'language' => Module::t('Language'),
-            'translation' => Module::t('Translation')
+            'id' => I18n::t('ID'),
+            'language' => I18n::t('Language'),
+            'translation' => I18n::t('Translation')
         ];
     }
 

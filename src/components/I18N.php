@@ -22,7 +22,7 @@ class I18N extends \yii\i18n\I18N
     public $languages;
     
     /** @var array */
-    public $missingTranslationHandler = ['yiidreamteam\i18n\Module', 'missingTranslation'];
+    public $missingTranslationHandler = ['yiidreamteam\i18n\backend\I18n', 'missingTranslation'];
 
     /** @var string */
     public $autoSetLanguage = true;

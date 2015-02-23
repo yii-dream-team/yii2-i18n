@@ -9,18 +9,18 @@ use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use yiidreamteam\i18n\models\SourceMessage;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\I18n;
 
-$this->title = Module::t('Update') . ': ' . $model->message;
+$this->title = I18n::t('Update') . ': ' . $model->message;
 echo Breadcrumbs::widget(['links' => [
-    ['label' => Module::t('Translations'), 'url' => ['index']],
+    ['label' => I18n::t('Translations'), 'url' => ['index']],
     ['label' => $this->title]
 ]]);
 ?>
 <div class="message-update">
     <div class="message-form">
         <div class="panel panel-default">
-            <div class="panel-heading"><?= Module::t('Source message') ?></div>
+            <div class="panel-heading"><?= I18n::t('Source message') ?></div>
             <div class="panel-body"><?= Html::encode($model->message) ?></div>
         </div>
         <?php $form = ActiveForm::begin(); ?>
@@ -32,7 +32,7 @@ echo Breadcrumbs::widget(['links' => [
         <div class="form-group">
             <?=
             Html::submitButton(
-                $model->getIsNewRecord() ? Module::t('Create') : Module::t('Update'),
+                $model->getIsNewRecord() ? I18n::t('Create') : I18n::t('Update'),
                 ['class' => $model->getIsNewRecord() ? 'btn btn-success' : 'btn btn-primary']
             ) ?>
         </div>

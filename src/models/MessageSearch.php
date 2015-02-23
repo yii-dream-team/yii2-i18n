@@ -15,6 +15,7 @@ class MessageSearch extends Message
     public $category;
     public $source;
     public $translationStatus;
+    public $prefix;
 
     /**
      * @inheritdoc
@@ -23,6 +24,7 @@ class MessageSearch extends Message
     {
         return [
             [['category', 'source', 'language', 'translation', 'translationStatus'], 'safe'],
+            ['prefix', 'in', 'range' => ['cabinet', 'shop', 'brand', 'bonus']]
         ];
     }
 
@@ -40,14 +42,33 @@ class MessageSearch extends Message
         if($this->language)
             $query->filterWhere(['language' => $this->language]);
 
+        if ($this->prefix) {
+            $query->andFilterWhere([
+                'or',
+                ['like', 'sourceMessage.category', $this->prefix . '.' . $this->category],
+                ['like', 'sourceMessage.category', $this->prefix . '/' . $this->category],
+            ]);
+        }
+
         if (!($this->load($params) && $this->validate())) {
             return $dataProvider;
         }
 
         $query
             ->andFilterWhere(['like', 'translation', $this->translation])
-            ->andFilterWhere(['like', 'sourceMessage.message', $this->source])
-            ->andFilterWhere(['like', 'sourceMessage.category', $this->category]);
+            ->andFilterWhere(['like', 'sourceMessage.message', $this->source]);
+
+        if ($this->category) {
+            if ($this->prefix) {
+                $query->andFilterWhere([
+                    'or',
+                    ['like', 'sourceMessage.category', $this->prefix . '.' . $this->category],
+                    ['like', 'sourceMessage.category', $this->prefix . '/' . $this->category],
+                ]);
+            } else {
+                $query->andFilterWhere(['like', 'sourceMessage.category', $this->category]);
+            }
+        }
 
         if($this->translationStatus === static::MESSAGE_TRANSLATED_YES)
             $query->andWhere('translation IS NOT NULL AND translation <> ""');

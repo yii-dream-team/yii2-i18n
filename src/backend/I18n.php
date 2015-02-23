@@ -1,18 +1,23 @@
 <?php
 
-namespace yiidreamteam\i18n;
+namespace yiidreamteam\i18n\backend;
 
 use Yii;
 use yii\i18n\MissingTranslationEvent;
 use yiidreamteam\i18n\models\SourceMessage;
+use yii\base\Module;
 
-class Module extends \yii\base\Module
+class I18n extends Module
 {
 
     const MISSING_TRANSLATIONS_KEY = 'missingTranslations';
     const EXISTING_TRANSLATIONS_KEY = 'existingTranslations';
 
     public $pageSize = 50;
+
+    public $prefix;
+
+    public $controllerNamespace = 'yiidreamteam\i18n\backend\controllers';
 
     public static function t($message, $params = [], $language = null)
     {
