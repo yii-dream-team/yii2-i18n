@@ -5,7 +5,7 @@ namespace yiidreamteam\i18n\models;
 use yii\data\ActiveDataProvider;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 
 class SourceMessageSearch extends SourceMessage
 {

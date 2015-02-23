@@ -4,7 +4,7 @@ namespace yiidreamteam\i18n\actions;
 
 use Yii;
 use yii\base\Action;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 use yii\base\InvalidParamException;
 
 /**

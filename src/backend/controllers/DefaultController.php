@@ -1,6 +1,6 @@
 <?php
 
-namespace yiidreamteam\i18n\controllers;
+namespace yiidreamteam\i18n\backend\controllers;
 
 use yii\base\Model;
 use yii\filters\VerbFilter;
@@ -14,10 +14,11 @@ use Yii;
 use yiidreamteam\i18n\models\MessageSearch;
 use yiidreamteam\i18n\models\SourceMessage;
 use yiidreamteam\i18n\models\Message;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 
 class DefaultController extends Controller
 {
+
     public function behaviors()
     {
         return [

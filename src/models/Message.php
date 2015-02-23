@@ -5,7 +5,7 @@ namespace yiidreamteam\i18n\models;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\db\ActiveRecord;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 
 class Message extends ActiveRecord
 {

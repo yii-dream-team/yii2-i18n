@@ -9,7 +9,7 @@ use yii\web\View;
 use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use yiidreamteam\i18n\models\SourceMessage;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 
 $this->title = Module::t('Update') . ': ' . $model->message;
 echo Breadcrumbs::widget(['links' => [

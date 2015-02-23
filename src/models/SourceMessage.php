@@ -6,7 +6,7 @@ use yii\base\InvalidConfigException;
 use Yii;
 use yii\db\ActiveRecord;
 use yiidreamteam\i18n\models\SourceMessageQuery;
-use yiidreamteam\i18n\Module;
+use yiidreamteam\i18n\backend\Module;
 
 class SourceMessage extends ActiveRecord
 {
