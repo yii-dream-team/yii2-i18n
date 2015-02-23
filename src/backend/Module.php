@@ -5,9 +5,9 @@ namespace yiidreamteam\i18n\backend;
 use Yii;
 use yii\i18n\MissingTranslationEvent;
 use yiidreamteam\i18n\models\SourceMessage;
-use yii\base\Module;
+use yii\base\Module as YiiModule;
 
-class I18n extends Module
+class Module extends YiiModule
 {
 
     const MISSING_TRANSLATIONS_KEY = 'missingTranslations';

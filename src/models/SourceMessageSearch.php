@@ -5,7 +5,7 @@ namespace yiidreamteam\i18n\models;
 use yii\data\ActiveDataProvider;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yiidreamteam\i18n\backend\I18n;
+use yiidreamteam\i18n\backend\Module;
 
 class SourceMessageSearch extends SourceMessage
 {
@@ -56,8 +56,8 @@ class SourceMessageSearch extends SourceMessage
     public static function getStatus($id = null)
     {
         $statuses = [
-            self::STATUS_TRANSLATED => I18n::t('Translated'),
-            self::STATUS_NOT_TRANSLATED => I18n::t('Not translated'),
+            self::STATUS_TRANSLATED => Module::t('Translated'),
+            self::STATUS_NOT_TRANSLATED => Module::t('Not translated'),
         ];
         if ($id !== null) {
             return ArrayHelper::getValue($statuses, $id, null);

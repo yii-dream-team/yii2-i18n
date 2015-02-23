@@ -9,7 +9,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yiidreamteam\i18n\models\Message;
 use yiidreamteam\i18n\models\SourceMessage;
-use yiidreamteam\i18n\backend\I18n;
+use yiidreamteam\i18n\backend\Module;
 
 class I18nCommand extends Controller
 {
@@ -172,8 +172,8 @@ EOD;
 
     public function actionMissingTranslations()
     {
-        if (($data = Yii::$app->cache->get(I18n::MISSING_TRANSLATIONS_KEY)) !== false) {
-            if (($existingTranslations = Yii::$app->cache->get(I18n::EXISTING_TRANSLATIONS_KEY)) === false) {
+        if (($data = Yii::$app->cache->get(Module::MISSING_TRANSLATIONS_KEY)) !== false) {
+            if (($existingTranslations = Yii::$app->cache->get(Module::EXISTING_TRANSLATIONS_KEY)) === false) {
                 $existingTranslations = [];
             }
             $db = Yii::$app->getDb();
@@ -185,8 +185,8 @@ EOD;
             }
             try {
                 $db->createCommand(rtrim($sql, ', '))->execute();
-                Yii::$app->cache->delete(I18n::MISSING_TRANSLATIONS_KEY);
-                Yii::$app->cache->set(I18n::EXISTING_TRANSLATIONS_KEY, $existingTranslations);
+                Yii::$app->cache->delete(Module::MISSING_TRANSLATIONS_KEY);
+                Yii::$app->cache->set(Module::EXISTING_TRANSLATIONS_KEY, $existingTranslations);
                 $this->stdout('All missing translation was successfully saved!' . PHP_EOL);
             } catch (\yii\db\Exception $e) {
                 $eInfo = 'message - ' . $e->getMessage()
@@ -196,7 +196,7 @@ EOD;
                     . ', dateTime - ' . date(Yii::$app->params['format']['dateTime'])
                     . ', exceptionType - ' . get_class($e) . PHP_EOL;
                 $this->stderr($eInfo);
-                Yii::error($eInfo, I18n::MISSING_TRANSLATIONS_KEY);
+                Yii::error($eInfo, Module::MISSING_TRANSLATIONS_KEY);
                 return Controller::EXIT_CODE_ERROR;
             }
         }

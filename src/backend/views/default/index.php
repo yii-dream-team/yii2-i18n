@@ -12,9 +12,9 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\Breadcrumbs;
 use yiidreamteam\i18n\models\SourceMessageSearch;
-use yiidreamteam\i18n\backend\I18n;
+use yiidreamteam\i18n\backend\Module;
 
-$this->title = I18n::t('Translations');
+$this->title = Module::t('Translations');
 echo Breadcrumbs::widget(['links' => [
     $this->title
 ]]);

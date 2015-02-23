@@ -6,7 +6,7 @@ use yii\base\InvalidConfigException;
 use Yii;
 use yii\db\ActiveRecord;
 use yiidreamteam\i18n\models\SourceMessageQuery;
-use yiidreamteam\i18n\backend\I18n;
+use yiidreamteam\i18n\backend\Module;
 
 class SourceMessage extends ActiveRecord
 {
@@ -44,10 +44,10 @@ class SourceMessage extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => I18n::t('ID'),
-            'category' => I18n::t('Category'),
-            'message' => I18n::t('Message'),
-            'status' => I18n::t('Translation status')
+            'id' => Module::t('ID'),
+            'category' => Module::t('Category'),
+            'message' => Module::t('Message'),
+            'status' => Module::t('Translation status')
         ];
     }
 
