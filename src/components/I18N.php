@@ -5,9 +5,12 @@ namespace yiidreamteam\i18n\components;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\i18n\DbMessageSource;
+use yii\i18n\MissingTranslationEvent;
+use yiidreamteam\i18n\models\SourceMessage;
 
 class I18N extends \yii\i18n\I18N
 {
+
     /** @var string */
     public $sourceMessageTable = '{{%source_message}}';
     
@@ -22,7 +25,7 @@ class I18N extends \yii\i18n\I18N
     public $languages;
     
     /** @var array */
-    public $missingTranslationHandler = ['yiidreamteam\i18n\backend\I18n', 'missingTranslation'];
+    public $missingTranslationHandler = [self::class, 'missingTranslation'];
 
     /** @var string */
     public $autoSetLanguage = true;
@@ -133,4 +136,31 @@ class I18N extends \yii\i18n\I18N
         Yii::$app->language = $language;
         return $language;
     }
+
+    /**
+     * @param MissingTranslationEvent $event
+     */
+    public static function missingTranslation(MissingTranslationEvent $event)
+    {
+        $sourceMessage = SourceMessage::find()
+            ->where('category = :category and message = binary :message', [
+                ':category' => $event->category,
+                ':message' => $event->message
+            ])
+            ->with('messages')
+            ->one();
+
+        if (!$sourceMessage) {
+            $sourceMessage = new SourceMessage;
+            $sourceMessage->setAttributes([
+                'category' => $event->category,
+                'message' => $event->message
+            ], false);
+            $sourceMessage->save(false);
+        }
+
+        $sourceMessage->initMessages();
+        $sourceMessage->saveMessages();
+    }
+
 }
