@@ -9,6 +9,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\VarDumper;
 use yiidreamteam\i18n\models\Message;
 use yiidreamteam\i18n\models\SourceMessage;
+use yiidreamteam\i18n\Module;
 
 class I18nCommand extends Controller
 {
@@ -168,4 +169,38 @@ EOD;
         }
         echo PHP_EOL . 'Done.' . PHP_EOL;
     }
+
+    public function actionMissingTranslations()
+    {
+        if (($data = Yii::$app->cache->get(Module::MISSING_TRANSLATIONS_KEY)) !== false) {
+            if (($existingTranslations = Yii::$app->cache->get(Module::EXISTING_TRANSLATIONS_KEY)) === false) {
+                $existingTranslations = [];
+            }
+            $db = Yii::$app->getDb();
+            $sql = 'INSERT INTO ' . $db->quoteTableName(SourceMessage::tableName()) .
+                ' (`category`, `message`) VALUES ';
+            foreach ($data as $v) {
+                $sql .= ' ("' . $v['category'] . '", "' . $v['message'] . '"), ';
+                $existingTranslations[] = md5($v['category'] . $v['message']);
+            }
+            try {
+                $db->createCommand(rtrim($sql, ', '))->execute();
+                Yii::$app->cache->delete(Module::MISSING_TRANSLATIONS_KEY);
+                Yii::$app->cache->set(Module::EXISTING_TRANSLATIONS_KEY, $existingTranslations);
+                $this->stdout('All missing translation was successfully saved!' . PHP_EOL);
+            } catch (\yii\db\Exception $e) {
+                $eInfo = 'message - ' . $e->getMessage()
+                    . ', code - ' . $e->getCode()
+                    . ', file - ' . $e->getFile()
+                    . ', line - ' . $e->getLine()
+                    . ', dateTime - ' . date(Yii::$app->params['format']['dateTime'])
+                    . ', exceptionType - ' . get_class($e) . PHP_EOL;
+                $this->stderr($eInfo);
+                Yii::error($eInfo, Module::MISSING_TRANSLATIONS_KEY);
+                return Controller::EXIT_CODE_ERROR;
+            }
+        }
+        return Controller::EXIT_CODE_NORMAL;
+    }
+
 }

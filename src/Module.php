@@ -8,6 +8,10 @@ use yiidreamteam\i18n\models\SourceMessage;
 
 class Module extends \yii\base\Module
 {
+
+    const MISSING_TRANSLATIONS_KEY = 'missingTranslations';
+    const EXISTING_TRANSLATIONS_KEY = 'existingTranslations';
+
     public $pageSize = 50;
 
     public static function t($message, $params = [], $language = null)
@@ -20,23 +24,37 @@ class Module extends \yii\base\Module
      */
     public static function missingTranslation(MissingTranslationEvent $event)
     {
-        $sourceMessage = SourceMessage::find()
-            ->where('category = :category and message = binary :message', [
-                ':category' => $event->category,
-                ':message' => $event->message
-            ])
-            ->with('messages')
-            ->one();
+//        $sourceMessage = SourceMessage::find()
+//            ->where('category = :category and message = binary :message', [
+//                ':category' => $event->category,
+//                ':message' => $event->message
+//            ])
+//            ->with('messages')
+//            ->one();
+//
+//        if (!$sourceMessage) {
+//            $sourceMessage = new SourceMessage;
+//            $sourceMessage->setAttributes([
+//                'category' => $event->category,
+//                'message' => $event->message
+//            ], false);
+//            $sourceMessage->save(false);
+//        }
 
-        if (!$sourceMessage) {
-            $sourceMessage = new SourceMessage;
-            $sourceMessage->setAttributes([
+//        $sourceMessage->initMessages();
+//        $sourceMessage->saveMessages();
+
+        if (($existingTranslations = Yii::$app->cache->get(self::EXISTING_TRANSLATIONS_KEY)) === false) {
+            $existingTranslations = [];
+        }
+        if (!in_array(md5($event->category . $event->message), $existingTranslations)) {
+            $missingTranslations = Yii::$app->cache->get(self::MISSING_TRANSLATIONS_KEY);
+            $missingTranslations[] = [
                 'category' => $event->category,
                 'message' => $event->message
-            ], false);
-            $sourceMessage->save(false);
+            ];
+            Yii::$app->cache->set(self::MISSING_TRANSLATIONS_KEY, $missingTranslations);
         }
-        $sourceMessage->initMessages();
-        $sourceMessage->saveMessages();
     }
+
 }
