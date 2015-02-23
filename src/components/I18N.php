@@ -25,7 +25,7 @@ class I18N extends \yii\i18n\I18N
     public $languages;
     
     /** @var array */
-    public $missingTranslationHandler = [self::class, 'missingTranslation'];
+    public $missingTranslationHandler = ['\yiidreamteam\i18n\components\I18N', 'missingTranslation'];
 
     /** @var string */
     public $autoSetLanguage = true;
