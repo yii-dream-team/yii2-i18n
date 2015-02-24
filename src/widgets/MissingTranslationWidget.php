@@ -9,30 +9,17 @@ use yiidreamteam\i18n\components\I18N;
 class MissingTranslationWidget extends Widget
 {
 
-	/** @var $viewFile you can specify your own view file */
-	public $viewFile = 'missingTranslationWidget';
-
-	/** @var $selectedLanguage by default */
-	public $selectedLanguage;
-
     /** @var $accessRole role to widget access */
     public $accessRole;
 
     /** @var $missingTranslations */
     public $missingTranslations;
 
-	public function init()
-	{
-		if (!$this->selectedLanguage) {
-            $this->selectedLanguage = Yii::$app->i18n->getLanguage();
-        }
-	}
-
 	public function run()
 	{
         if ($this->existMissingTranslations()) {
-            return $this->render($this->viewFile, [
-                'selectedLanguage' => $this->selectedLanguage,
+            return $this->render('missingTranslationWidget', [
+                'currentLanguage' => Yii::$app->i18n->getLanguage(),
                 'missingTranslations' => $this->missingTranslations,
             ]);
         }
