@@ -11,6 +11,9 @@ use yiidreamteam\i18n\models\SourceMessage;
 class I18N extends \yii\i18n\I18N
 {
 
+    const MISSING_TRANSLATIONS_KEY = 'missingTranslations';
+    const EXISTING_TRANSLATIONS_KEY = 'existingTranslations';
+
     /** @var string */
     public $sourceMessageTable = '{{%source_message}}';
     
@@ -161,6 +164,18 @@ class I18N extends \yii\i18n\I18N
 
         $sourceMessage->initMessages();
         $sourceMessage->saveMessages();
+
+        if (($existingTranslations = Yii::$app->cache->get(self::EXISTING_TRANSLATIONS_KEY)) === false) {
+            $existingTranslations = [];
+        }
+        if (!in_array(md5($event->category . $event->message), $existingTranslations)) {
+            $missingTranslations = Yii::$app->cache->get(self::MISSING_TRANSLATIONS_KEY);
+            $missingTranslations[] = [
+                'category' => $event->category,
+                'message' => $event->message
+            ];
+            Yii::$app->cache->set(self::MISSING_TRANSLATIONS_KEY, $missingTranslations);
+        }
     }
 
 }
