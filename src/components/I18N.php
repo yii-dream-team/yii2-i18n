@@ -163,7 +163,7 @@ class I18N extends \yii\i18n\I18N
         }
 
         $sourceMessage->initMessages();
-        $sourceMessage->saveMessages();
+        $messages = $sourceMessage->saveMessages();
 
         if (($existingTranslations = Yii::$app->cache->get(self::EXISTING_TRANSLATIONS_KEY)) === false) {
             $existingTranslations = [];
@@ -172,7 +172,8 @@ class I18N extends \yii\i18n\I18N
             $missingTranslations = Yii::$app->cache->get(self::MISSING_TRANSLATIONS_KEY);
             $missingTranslations[] = [
                 'category' => $event->category,
-                'message' => $event->message
+                'message' => $event->message,
+                'messages' => $messages,
             ];
             Yii::$app->cache->set(self::MISSING_TRANSLATIONS_KEY, $missingTranslations);
         }

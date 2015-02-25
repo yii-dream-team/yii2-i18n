@@ -15,11 +15,15 @@ class MissingTranslationWidget extends Widget
     /** @var $missingTranslations */
     public $missingTranslations;
 
+    /** @var $url */
+    public $url;
+
 	public function run()
 	{
         if ($this->existMissingTranslations()) {
             return $this->render('missingTranslationWidget', [
-                'currentLanguage' => Yii::$app->i18n->getLanguage(),
+                'url' => $this->url,
+                'languages' => Yii::$app->i18n->languages,
                 'missingTranslations' => $this->missingTranslations,
             ]);
         }
@@ -34,7 +38,7 @@ class MissingTranslationWidget extends Widget
 
     private function existMissingTranslations()
     {
-//        return $this->setMissingTranslations() && Yii::$app->user->can($this->accessRole);
+//        return $this->setMissingTranslations() && $this->url && Yii::$app->user->can($this->accessRole);
         return $this->setMissingTranslations();
     }
 

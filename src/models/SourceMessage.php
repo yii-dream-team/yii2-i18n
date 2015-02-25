@@ -81,10 +81,13 @@ class SourceMessage extends ActiveRecord
 
     public function saveMessages()
     {
+        $messages = [];
         /** @var Message $message */
         foreach ($this->messages as $message) {
             $this->link('messages', $message);
             $message->save();
+            $messages[] = $message;
         }
+        return $messages;
     }
 }
