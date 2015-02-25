@@ -17,8 +17,6 @@ class MissingTranslationAction extends Action
 
     public function run()
     {
-        return;
-
         if (Yii::$app->request->isPost && Yii::$app->request->validateCsrfToken()) {
             try {
                 $messages = Yii::$app->request->post('messages');
@@ -53,9 +51,8 @@ class MissingTranslationAction extends Action
                 $class = 'danger';
                 $body = 'Произошла ошибка!' . (YII_DEBUG ? ' код: <b>' . $e->getCode() . '</b>, имя: <b>' .
                         $e->getName() . '</b>, сообщение: <b>' . $e->getMessage() . '</b>' : '');
-            } finally {
-                return Alert::widget(['body' => $body, 'options' => ['class' => 'alert-' . $class]]);
             }
+            return Alert::widget(['body' => $body, 'options' => ['class' => 'alert-' . $class]]);
         }
     }
 
