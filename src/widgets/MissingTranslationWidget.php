@@ -38,8 +38,7 @@ class MissingTranslationWidget extends Widget
 
     private function existMissingTranslations()
     {
-//        return $this->setMissingTranslations() && $this->url && Yii::$app->user->can($this->accessRole);
-        return $this->setMissingTranslations();
+        return $this->setMissingTranslations() && $this->url && Yii::$app->user->can($this->accessRole);
     }
 
 }
