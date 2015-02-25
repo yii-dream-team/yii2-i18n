@@ -17,6 +17,8 @@ class MissingTranslationAction extends Action
 
     public function run()
     {
+        return;
+
         if (Yii::$app->request->isPost && Yii::$app->request->validateCsrfToken()) {
             try {
                 $messages = Yii::$app->request->post('messages');
