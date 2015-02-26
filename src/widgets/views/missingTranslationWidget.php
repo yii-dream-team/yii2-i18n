@@ -110,8 +110,8 @@ $this->registerCss($css);
                                 <td>
                                     <?php
                                     echo Html::input('text',
-                                        'messages[' . $message->id . '::' . $message->language . ']',
-                                        $message->translation
+                                        'messages[' . $message['id'] . '::' . $message['language'] . ']',
+                                        $message['translation']
                                     );
                                     ?>
                                 </td>

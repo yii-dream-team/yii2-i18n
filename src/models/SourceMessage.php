@@ -86,7 +86,11 @@ class SourceMessage extends ActiveRecord
         foreach ($this->messages as $message) {
             $this->link('messages', $message);
             $message->save();
-            $messages[] = $message;
+            $messages[] = [
+                'id' => $message->id,
+                'translation' => $message->translation,
+                'language' => $message->language,
+            ];
         }
         return $messages;
     }

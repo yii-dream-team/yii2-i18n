@@ -20,27 +20,16 @@ class MissingTranslationAction extends Action
         if (Yii::$app->request->isPost && Yii::$app->request->validateCsrfToken()) {
             try {
                 $messages = Yii::$app->request->post('messages');
-//                $db = Yii::$app->db;
-//                $sql = 'UPDATE ' . $db->quoteTableName(Message::tableName()) . ' SET `translation` CASE ';
-                $execute = false;
                 foreach ($messages as $idLanguage => $message) {
                     if ($message) {
-//                        $execute = true;
                         list($id, $language) = explode('::', $idLanguage);
-//                        $sql .= 'WHEN `id` = ' . $id . ' AND `language` = "' . $language .
-//                            '" THEN "' . $message . '" ';
-                        $model = Message::find()
-                            ->where('id = :id AND language = :language', [':id' => $id, ':language' => $language])
-                            ->one();
-                        $model->translation = $message;
-                        $model->save();
+                        Message::updateAll(
+                            ['translation' => $message],
+                            'id = :id AND language = :language',
+                            [':id' => $id, ':language' => $language]
+                        );
                     }
                 }
-//                if (!$execute) {
-//                    return;
-//                }
-//                $sql .= 'END';
-//                $db->createCommand($sql)->execute();
                 $class = 'success';
                 $body = 'Cообщения успешно переведены!';
             } catch (Exception $e) {
