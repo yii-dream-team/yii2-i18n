@@ -45,8 +45,8 @@ class MessageSearch extends Message
         if ($this->prefix) {
             $query->andFilterWhere([
                 'or',
-                ['like', 'sourceMessage.category', $this->prefix . '.' . $this->category],
-                ['like', 'sourceMessage.category', $this->prefix . '/' . $this->category],
+                ['like', 'sourceMessage.category', $this->prefix . '.'],
+                ['like', 'sourceMessage.category', $this->prefix . '/'],
             ]);
         }
 
