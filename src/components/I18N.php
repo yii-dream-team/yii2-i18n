@@ -165,13 +165,13 @@ class I18N extends \yii\i18n\I18N
         $sourceMessage->initMessages();
         $messages = $sourceMessage->saveMessages();
 
-        $missingTranslations = Yii::$app->cache->get(self::MISSING_TRANSLATIONS_KEY);
-        $missingTranslations[] = [
-            'category' => $event->category,
-            'message' => $event->message,
-            'messages' => $messages,
-        ];
-        Yii::$app->cache->set(self::MISSING_TRANSLATIONS_KEY, $missingTranslations);
+//        $missingTranslations = Yii::$app->cache->get(self::MISSING_TRANSLATIONS_KEY);
+//        $missingTranslations[] = [
+//            'category' => $event->category,
+//            'message' => $event->message,
+//            'messages' => $messages,
+//        ];
+//        Yii::$app->cache->set(self::MISSING_TRANSLATIONS_KEY, $missingTranslations);
     }
 
 }
