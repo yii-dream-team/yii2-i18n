@@ -45,7 +45,6 @@ echo Breadcrumbs::widget(['links' => [
                 'class' => kartik\grid\EditableColumn::className(),
                 'attribute' => 'translation',
                 'editableOptions' => [
-                    'header' => 'Перевод',
                     'size' => 'md',
                     'placement' => \kartik\popover\PopoverX::ALIGN_TOP,
                     'inputType' => \kartik\editable\Editable::INPUT_TEXTAREA,
