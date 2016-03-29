@@ -1,4 +1,4 @@
-yii2-i18n
+yii2-i18n-yarcode
 =========
 
 Yii2 i18n(internationalization) module to manage project translation.
